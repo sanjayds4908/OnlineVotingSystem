@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Online Voting System - Government of India</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+    body {
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+        background: #0b2242; /* body background */
+        overflow-x: hidden;
+        color: white; /* default text white */
+    }
+
+    /* HEADER */
+    header {
+        background: #0b2242;
+        color: white;
+        padding: 12px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 4px solid #f79b1f; /* orange line under header */
+    }
+
+    .site-title {
+        font-size: 22px;
+        font-weight: 600;
+    }
+
+    nav a {
+        color: white;
+        text-decoration: none;
+        margin-left: 20px;
+        font-size: 15px;
+        font-weight: 500;
+    }
+
+    nav a:hover {
+        color: #f79b1f;
+    }
+
+    /* HERO SECTION */
+    .hero {
+        background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.55)),
+                    url("https://images.unsplash.com/photo-1509099836639-18ba1795216d") center/cover;
+        height: 85vh; /* increased height to cover up to yellow mark */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        color: white;
+        padding: 0 20px;
+        border-bottom: 4px solid #f79b1f; /* orange line at hero end */
+    }
+
+    .hero h1 {
+        font-size: 40px;
+        margin-bottom: 10px;
+    }
+
+    .hero p {
+        font-size: 18px;
+        max-width: 600px;
+    }
+
+    /* INFO SECTION (BLUE BACKGROUND) */
+    .info-section {
+        background-color: #0b2242; /* same blue as header */
+        color: white;
+        max-width: 600px;
+        margin: 0 auto;
+        text-align: center;
+        padding: 20px 10px;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    .info-section div {
+        margin: 6px 0;
+    }
+
+    .info-section a {
+        color: #f79b1f; /* highlight email link in orange */
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .info-section a:hover {
+        text-decoration: underline;
+    }
+
+    /* MODAL */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 999;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.5);
+    }
+
+    .modal-content {
+        background-color: #fff;
+        color: #0b2242;
+        margin: 15% auto;
+        padding: 25px 30px;
+        border-radius: 12px;
+        width: 90%;
+        max-width: 400px;
+        text-align: center;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        position: relative;
+    }
+
+    .close-btn {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        font-size: 20px;
+        font-weight: bold;
+        color: #0b2242;
+        cursor: pointer;
+    }
+
+    .close-btn:hover {
+        color: #f79b1f;
+    }
+
+    /* RESPONSIVE */
+    @media screen and (max-width: 500px) {
+        .hero h1 {
+            font-size: 30px;
+        }
+        .hero p {
+            font-size: 16px;
+        }
+        .info-section {
+            font-size: 13px;
+        }
+        .hero {
+            height: 90vh; /* taller on small screens */
+        }
+    }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+    <div class="site-title">ONLINE VOTING SYSTEM</div>
+    <nav>
+        <a href="{{ url_for('login') }}">Voter Login</a>
+        <a href="{{ url_for('register') }}">Register</a>
+        <a href="{{ url_for('admin_login') }}">Admin Login</a>
+        <a href="#" id="support-link">Support</a>
+    </nav>
+</header>
+
+<!-- HERO SECTION -->
+<section class="hero">
+    <h1>Welcome to the Online Voting System</h1>
+    <p>Cast your vote securely and conveniently from anywhere across the nation.</p>
+</section>
+
+<!-- INFO / FOOTER-LIKE CONTENT -->
+<section class="info-section">
+    © 2025 Online Voting System. All Rights Reserved.</div>
+</section>
+
+<!-- MODAL -->
+<div id="support-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" id="close-modal">&times;</span>
+        <h3>Contact / Information</h3>
+        <p>Name: VARSHA B S</p>
+        <p>Phone: 9380383194</p>
+        <p>Email: <a href="mailto:varshavarsha2361@gmail.com">varshavarsha2361@gmail.com</a></p>
+    </div>
+</div>
+
+<script>
+const supportLink = document.getElementById('support-link');
+const modal = document.getElementById('support-modal');
+const closeBtn = document.getElementById('close-modal');
+
+supportLink.onclick = function(e){
+    e.preventDefault();
+    modal.style.display = 'block';
+}
+
+closeBtn.onclick = function(){
+    modal.style.display = 'none';
+}
+
+window.onclick = function(event) {
+    if(event.target == modal){
+        modal.style.display = 'none';
+    }
+}
+</script>
+
+</body>
+</html>

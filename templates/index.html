@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Register - Online Voting System</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #f4f6f9; /* same as main.html background */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: #0b2242; /* main text color */
+    }
+
+    .card {
+      background: #fff;
+      padding: 40px 35px;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 450px;
+      text-align: left;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      border-top: 4px solid #f79b1f; /* accent color like main page */
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #0b2242; /* match main page header text */
+    }
+
+    label {
+      font-weight: 500;
+      display: block;
+      margin-bottom: 6px;
+      color: #0b2242;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-bottom: 16px;
+      font-size: 15px;
+      box-sizing: border-box;
+    }
+
+    input[name="voter_id"] {
+      text-transform: uppercase;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #0b2242; /* same as main header */
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 500;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #f79b1f; /* main highlight color */
+    }
+
+    .error {
+      color: red;
+      text-align: center;
+      margin-bottom: 12px;
+      font-weight: bold;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 18px;
+      font-size: 14px;
+      color: #0b2242;
+    }
+
+    .footer a {
+      color: #0b2242;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .footer a:hover {
+      color: #f79b1f;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <h2>Register as Voter</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="{{ messages[0][0] }}">{{ messages[0][1] }}</div>
+      {% endif %}
+    {% endwith %}
+
+    <!-- IMPORTANT: enctype added for file upload -->
+    <form method="POST" action="{{ url_for('register') }}" enctype="multipart/form-data">
+
+      <label>Name</label>
+      <input name="name" required placeholder="Enter full name">
+
+      <label>Voter ID</label>
+      <input name="voter_id"
+             required
+             maxlength="10"
+             pattern="[A-Z]{3}[0-9]{7}"
+             placeholder="Format: ABC1234567">
+
+      <label>Date of Birth</label>
+      <input type="date" name="dob" required>
+
+      <label>Password</label>
+      <input type="password" name="password" required placeholder="Enter a password">
+
+      <!-- ⭐ Aadhaar Upload Field -->
+      <label>Upload your Identity</label>
+      <input type="file" name="aadhaar" accept=".jpg,.jpeg,.png,.pdf" required>
+
+      <button type="submit">Register</button>
+    </form>
+
+    <div class="footer">
+      Already registered? <a href="{{ url_for('login') }}">Login</a><br>
+      Admin? <a href="{{ url_for('admin_login') }}">Admin Login</a>
+    </div>
+  </div>
+</body>
+</html>

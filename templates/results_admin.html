@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Election Results - Admin | Online Voting System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+
+body {
+    background: #f4f6f9;
+    color: #0b2242;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 10px;
+}
+
+.container {
+    background: #fff;
+    padding: 35px 30px;
+    border-radius: 12px;
+    max-width: 720px;
+    width: 100%;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+    border-top: 4px solid #f79b1f;
+}
+
+h2 {
+    text-align: center;
+    color: #0b2242;
+    margin-bottom: 20px;
+}
+
+p {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+p a {
+    text-decoration: none;
+    color: #0b2242;
+    font-weight: 500;
+    margin: 0 10px;
+    transition: color 0.3s ease;
+}
+
+p a:hover {
+    color: #f79b1f;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+    font-weight: 500;
+}
+
+th {
+    background: #0b2242;
+    color: white;
+    font-size: 15px;
+}
+
+td {
+    background: #f8faff;
+    color: #0b2242;
+}
+
+tr:hover td {
+    background: #e6f0ff;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Election Results (Admin)</h2>
+    <p>
+        <a href="{{ url_for('admin_dashboard') }}">Back</a> | 
+        <a href="{{ url_for('admin_export') }}">Export CSV</a> | 
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </p>
+
+    <table>
+        <tr>
+            <th>Candidate</th>
+            <th>Votes</th>
+        </tr>
+        {% for candidate, total in results %}
+        <tr>
+            <td>{{ candidate.name }} {% if candidate.party %}({{ candidate.party }}){% endif %}</td>
+            <td>{{ total }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+</body>
+</html>

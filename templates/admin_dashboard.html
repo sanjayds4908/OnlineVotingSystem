@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Admin Dashboard - Online Voting System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+    body {
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+        background: #f4f6f9;
+        color: #0b2242;
+    }
+
+    .container {
+        max-width: 950px;
+        margin: 40px auto;
+        padding: 30px;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        border-top: 4px solid #f79b1f;
+    }
+
+    h2, h3 {
+        color: #0b2242;
+        margin-bottom: 15px;
+    }
+
+    p a {
+        text-decoration: none;
+        color: #0b2242;
+        margin-right: 15px;
+        font-weight: 500;
+    }
+
+    p a:hover {
+        color: #f79b1f;
+    }
+
+    input {
+        padding: 10px;
+        margin-right: 10px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        font-size: 15px;
+    }
+
+    button {
+        padding: 8px 16px;
+        border-radius: 8px;
+        border: none;
+        background: #0b2242;
+        color: white;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.3s ease;
+    }
+
+    button:hover {
+        background: #f79b1f;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: center;
+    }
+
+    th {
+        background: #0b2242;
+        color: #fff;
+        font-weight: 500;
+    }
+
+    td button {
+        padding: 5px 10px;
+        font-size: 14px;
+        background: #28a745;
+    }
+
+    td button:hover {
+        background: #218838;
+    }
+
+    ul {
+        list-style: none;
+        padding-left: 0;
+    }
+
+    ul li {
+        padding: 6px 0;
+        font-weight: 500;
+    }
+
+    /* Modal */
+    .modal {
+        display: none;
+        position: fixed;
+        top:0; left:0;
+        width:100%; height:100%;
+        background: rgba(0,0,0,0.6);
+        justify-content: center;
+        align-items: center;
+        z-index: 999;
+    }
+
+    .modal-content {
+        background: #fff;
+        padding: 20px;
+        border-radius: 12px;
+        max-width: 500px;
+        position: relative;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+
+    .close {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 22px;
+        font-weight: bold;
+        color: #0b2242;
+        cursor: pointer;
+    }
+
+    .close:hover {
+        color: #f79b1f;
+    }
+
+    .modal img {
+        width: 100%;
+        border-radius: 10px;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+<h2>Admin Dashboard</h2>
+<p>
+  <a href="{{ url_for('admin_results') }}">View Results</a>
+  <a href="{{ url_for('logout') }}">Logout</a>
+</p>
+
+<h3>Add Candidate</h3>
+<form method="post" action="{{ url_for('admin_add_candidate') }}">
+  <input name="name" placeholder="Candidate Name" required>
+  <input name="party" placeholder="Party (optional)">
+  <button type="submit">Add</button>
+</form>
+
+<h3>Registered Voters</h3>
+<table>
+<tr>
+  <th>Voter ID</th>
+  <th>Name</th>
+  <th>Has Voted</th>
+  <th>Registration Details</th>
+  <th>Identity Proof</th>
+</tr>
+{% for v in voters %}
+<tr>
+  <td>{{ v.voter_id }}</td>
+  <td>{{ v.name }}</td>
+  <td>{{ "Yes" if v.has_voted else "No" }}</td>
+  <td>{{ v.created_at }}</td>
+  <td>
+    {% if v.aadhaar_filename %}
+      <button onclick="showModal('{{ url_for('static', filename='aadhaar/' ~ v.aadhaar_filename) }}')">Preview</button>
+    {% else %}
+      Not Uploaded
+    {% endif %}
+  </td>
+</tr>
+{% endfor %}
+</table>
+
+<h3>Candidates</h3>
+<ul>
+{% for c in candidates %}
+  <li>{{ c.name }} {% if c.party %}({{ c.party }}){% endif %}</li>
+{% endfor %}
+</ul>
+</div>
+
+<!-- Modal -->
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <img id="modal-img" src="">
+  </div>
+</div>
+
+<script>
+function showModal(src) {
+    document.getElementById('modal-img').src = src;
+    document.getElementById('modal').style.display = 'flex';
+}
+function closeModal() {
+    document.getElementById('modal').style.display = 'none';
+}
+window.onclick = function(event) {
+    if(event.target == document.getElementById('modal')) {
+        closeModal();
+    }
+}
+</script>
+
+</body>
+</html>

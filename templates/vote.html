@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Cast Vote - Online Voting System</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #f4f6f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: #0b2242;
+    }
+
+    .card {
+      background: #fff;
+      padding: 35px 30px;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 640px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+      text-align: left;
+      border-top: 4px solid #f79b1f;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #0b2242;
+    }
+
+    .error {
+      color: red;
+      text-align: center;
+      margin-bottom: 15px;
+      font-weight: bold;
+    }
+
+    form div {
+      margin-bottom: 15px;
+    }
+
+    input[type="radio"] {
+      margin-right: 10px;
+      cursor: pointer;
+    }
+
+    label {
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #0b2242;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #f79b1f;
+    }
+
+    a {
+      color: #0b2242;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    a:hover {
+      color: #f79b1f;
+    }
+
+    p {
+      margin-top: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Cast Your Vote</h2>
+
+    {% if message %}
+      <div class="error">{{ message }}</div>
+    {% endif %}
+
+    {% if voted %}
+      <p>You have already voted. Thank you.</p>
+      <p><a href="{{ url_for('logout') }}">Logout</a></p>
+    {% else %}
+      <form method="POST">
+        {% for c in candidates %}
+          <div>
+            <input type="radio" id="c{{ c.id }}" name="candidate" value="{{ c.id }}" required>
+            <label for="c{{ c.id }}">{{ c.name }} {% if c.party %}({{ c.party }}){% endif %}</label>
+          </div>
+        {% endfor %}
+        <br>
+        <button type="submit">Submit Vote</button>
+      </form>
+    {% endif %}
+  </div>
+</body>
+</html>
